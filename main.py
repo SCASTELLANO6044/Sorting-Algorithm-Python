@@ -1,16 +1,25 @@
-# This is a sample Python script.
+import random
 
-# Press Mayús+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def quick_select (data, left, right, k):
+    if left == right:
+        return data[left]
+    pivot_index = partition (data, left, right)
 
+    if k == pivot_index:
+        return data [k]
+    elif k < pivot_index:
+        return quick_select(data, left, pivot_index - 1, k)
+    else:
+        return quick_select(data, pivot_index - 1, right, k)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def partition (data, left, right):
+    random_index = random.randint(0, len(data) - 1)
+    return random_index
 
+data = [7, 2, 1, 6, 8, 5, 3, 4]
+k = 3
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+# data = [1, 2, 3, 4, 5, 6, 7, 8]
+result = quick_select(data, 0, len(data) -1, k)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+print(result)
