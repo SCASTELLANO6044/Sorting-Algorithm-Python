@@ -1,25 +1,33 @@
-import random
+def quick_select(items):
+    def partition(arr, low, high):
+        pivot = arr[high]
+        i = low - 1
 
-def quick_select (data, left, right, k):
-    if left == right:
-        return data[left]
-    pivot_index = partition (data, left, right)
+        for j in range(low, high):
+            if arr[j] <= pivot:
+                i += 1
+                arr[i], arr[j] = arr[j], arr[i]
 
-    if k == pivot_index:
-        return data [k]
-    elif k < pivot_index:
-        return quick_select(data, left, pivot_index - 1, k)
-    else:
-        return quick_select(data, pivot_index - 1, right, k)
+        arr[i + 1], arr[high] = arr[high], arr[i + 1]
+        return i + 1
 
-def partition (data, left, right):
-    random_index = random.randint(0, len(data) - 1)
-    return random_index
+    def select(arr, low, high, k):
+        if low < high:
+            pivot_index = partition(arr, low, high)
 
-data = [7, 2, 1, 6, 8, 5, 3, 4]
-k = 3
+            if pivot_index == k:
+                return arr[pivot_index]
+            elif pivot_index > k:
+                return select(arr, low, pivot_index - 1, k)
+            else:
+                return select(arr, pivot_index + 1, high, k)
 
-# data = [1, 2, 3, 4, 5, 6, 7, 8]
-result = quick_select(data, 0, len(data) -1, k)
+        return arr[low]
 
-print(result)
+    n = len(items)
+    k = (n - 1) // 2  # Índice de la mediana
+
+    return select(items, 0, n - 1, k)
+
+
+print(quick_select((1, 3, 2, 4, 8, 5)))
